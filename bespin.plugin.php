@@ -13,6 +13,10 @@ class Bespin extends Plugin
 
             $internal_css = <<<CSS
             #content {
+                position:absolute;
+                left:-10000px;
+            }
+            #bespin {
                 height:400px;
                 width:100%;
                 margin:0 0 0 -6px;
@@ -34,13 +38,18 @@ CSS;
             echo <<<BESPIN
             <script type="text/javascript">
             $(document).ready(function() {
-                // convert content textarea to div
-                // @see https://bugzilla.mozilla.org/show_bug.cgi?id=535819
-                $("#content").replaceWith('<div id="content" class="styledformelement"/>');
-
-                var node = document.getElementById("content");
-                var bespin = tiki.require("embedded").useBespin(node);
+                // Bespin does not attach correctly to textareas.
+                // @link https://bugzilla.mozilla.org/show_bug.cgi?id=535819
+                $("#content").after('<div id="bespin" class="bespin styledformelement">'+$("#content").val()+'</div>');
             });
+
+            window.onBespinLoad = function() {
+                bespin = document.getElementById("bespin").bespin;
+
+                bespin.addEventListener('textChange', function() {
+                    $("#content").text(bespin.getValue());
+                });
+            };
             </script>
 BESPIN;
         }
