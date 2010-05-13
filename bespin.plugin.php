@@ -40,7 +40,7 @@ CSS;
             $(document).ready(function() {
                 // Bespin does not attach correctly to textareas.
                 // @link https://bugzilla.mozilla.org/show_bug.cgi?id=535819
-                $("#content").after('<div id="bespin" class="bespin styledformelement">'+$("#content").val()+'</div>');
+                $("#content").after('<div id="bespin" class="bespin styledformelement" data-bespinoptions=\'{"settings":{"tabstop":4}, "syntax":"html"}\'>'+$("#content").val()+'</div>');
             });
 
             window.onBespinLoad = function() {
